@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED_NAME = "saigonbaddielover"
 EXPECT_PUBLIC = True
+EXPECTED_SOURCES = {"overseer": ("https://github.com/saigonbaddielover/overseer.git", "plugins/overseer", "plugin-release")}
 
 
 def load(path: Path) -> dict:
@@ -87,11 +88,15 @@ def main() -> int:
     codex_plugins = plugins(codex, codex_path)
     if set(claude_plugins) != set(codex_plugins):
         raise SystemExit("Claude and Codex plugin sets differ")
+    if set(claude_plugins) != set(EXPECTED_SOURCES):
+        raise SystemExit("catalog plugin set differs from policy")
     for name in sorted(claude_plugins):
         claude_source = source(claude_plugins[name], f"Claude plugin {name}")
         codex_source = source(codex_plugins[name], f"Codex plugin {name}")
         if claude_source != codex_source:
             raise SystemExit(f"plugin {name} source differs between catalogs")
+        if claude_source != EXPECTED_SOURCES[name]:
+            raise SystemExit(f"plugin {name} source differs from policy")
         if args.online and anonymous_visibility(repo_slug(claude_source[0])) != EXPECT_PUBLIC:
             raise SystemExit(f"plugin {name} source visibility violates catalog policy")
     print(f"validated {len(claude_plugins)} plugin(s) in {EXPECTED_NAME}")
