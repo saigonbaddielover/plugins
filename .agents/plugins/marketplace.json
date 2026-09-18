@@ -1,0 +1,32 @@
+{
+  "name": "saigonbaddielover",
+  "interface": {
+    "displayName": "saigonbaddielover"
+  },
+  "plugins": [
+    {
+      "name": "overseer",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/saigonbaddielover/overseer.git",
+        "path": "plugins/overseer",
+        "ref": "plugin-release"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools",
+      "description": "Drive and read Claude Code, Codex, and shell workers from native Windows consoles or Linux tmux panes.",
+      "license": "MIT",
+      "keywords": [
+        "tmux",
+        "claude-code",
+        "codex",
+        "session-control",
+        "windows",
+        "ssh"
+      ]
+    }
+  ]
+}
